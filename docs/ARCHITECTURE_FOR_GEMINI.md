@@ -1,36 +1,33 @@
-# Architecture for Gemini: Activist MVP
+# Architecture for Gemini: Activist MVP (Monorepo)
 
 ## 1. Overview
-The Activist MVP is a **multi-tenant, template-driven SaaS** designed to empower social movements. It allows organizations (Tenants) to spin up branded sites (Campaigns) using a shared infrastructure (Host).
+The Activist MVP is structured as a **Turborepo-style Monorepo**. It separates the application into distinct workspaces for better scalability, code sharing, and separation of concerns between the SaaS platform (Host) and the Campaign sites (Tenants).
 
-## 2. Core Stack
-- **Framework**: Next.js (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS + Lucide React Icons
-- **State Management**: React Context (for Tenant state)
-- **Deployment**: Vercel / Edge Functions
+## 2. Directory Structure
+The project root contains the following workspaces:
 
-## 3. Multi-Tenancy Strategy
-The application serves two distinct contexts based on the resolved domain/path:
-1.  **Host Context**: The SaaS marketing and admin platform (e.g., `activist-app.com`).
-2.  **Tenant Context**: The public-facing movement pages (e.g., `climate-now.activist-app.com`).
+### `apps/`
+- **`web/`**: The main Next.js application.
+    - Uses **Route Groups** `(public)` and `(admin)` to separate tenant and platform logic.
+    - **Dynamic Routing**: `[domain]` folder handles tenant resolution.
+    - **Middleware**: Resolves `hostname` to `tenant_id`.
 
-**Data Isolation**:
-- Tenants are identified by a unique `slug` or `custom_domain`.
-- Components render dynamically based on the injected `TenantConfig`.
+### `packages/`
+- **`ui/`**: Atomic design system (Buttons, Cards, Inputs). Pure presentation.
+- **`theme/`**: Design tokens and tenant theming logic (Color injection).
+- **`core/`**: Shared types, constants, and business logic helper functions.
 
-## 4. Design System
-- **Host Theme**: Neutral, clean, professional (Inter font, slate grays).
-- **Tenant Theme**: Configurable primary/secondary colors and fonts.
-- **Components**: Atomic design pattern. Shared UI components live in `components/ui`.
+## 3. Multi-Tenancy Strategy (Middleware)
+- **Domain Resolution**: The app determines context based on the hostname.
+    - `app.activist.com` -> Renders `(admin)` routes.
+    - `*.activist.com` -> Renders `(public)/[domain]` routes.
+- **Data Isolation**: Each tenant is injected via `TenantContext` at the layout level.
 
-## 5. Directory Structure (Simulated in SPA)
-- `app/`: Routing logic.
-- `components/`: Shared reusable UI.
-- `lib/`: Utilities and mock database.
-- `features/`: Domain-specific business logic.
+## 4. Development Rules
+- **Imports**: Use relative imports to simulate monorepo package linking (e.g., `../../packages/ui`).
+- **State**: Use `useState` for routing in the SPA preview to avoid `history.pushState` security errors.
+- **Strict Boundaries**: `ui` package should not import from `web`.
 
-## 6. Development Rules
-- **DRY**: Do not duplicate pages for tenants; use dynamic routing `[tenantSlug]`.
-- **Accessibility**: All interactive elements must have aria-labels and keyboard nav.
-- **Performance**: Heavy assets must be lazy-loaded.
+## 5. Deployment
+- In a real environment, this maps to Vercel's multi-project deployment.
+- `apps/web` is the primary deploy target.
