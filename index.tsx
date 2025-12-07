@@ -47,6 +47,12 @@ const App = () => {
   // "Navigate" function updates internal state instead of pushing to history (Security fix)
   const navigate = (path: string) => setCurrentUrl(path);
 
+  // "Switch Domain" function simulates visiting a different subdomain
+  const switchDomain = (domain: string) => {
+    setCurrentDomain(domain);
+    setCurrentUrl('/');
+  };
+
   // --- MIDDLEWARE EXECUTION ---
   const routeContext = middleware(currentUrl, currentDomain);
 
@@ -56,14 +62,18 @@ const App = () => {
       case 'admin':
         return (
           <AdminLayout navigate={navigate}>
-            {/* Simple router for admin pages */}
-            <DashboardPage />
+            {/* Pass switchDomain to allow navigating to tenant sites */}
+            <DashboardPage switchDomain={switchDomain} />
           </AdminLayout>
         );
       
       case 'public':
         return (
-          <TenantLayout tenant={routeContext.tenant} navigate={navigate}>
+          <TenantLayout 
+            tenant={routeContext.tenant} 
+            navigate={navigate}
+            switchDomain={switchDomain}
+          >
              {/* Simple router for tenant pages */}
              <TenantPage tenant={routeContext.tenant} />
           </TenantLayout>
@@ -83,25 +93,25 @@ const App = () => {
       <div className="font-bold text-slate-400 mb-2 uppercase tracking-wider">Simulate Domain</div>
       <div className="flex flex-col gap-2">
         <button 
-          onClick={() => setCurrentDomain('activist.com')}
+          onClick={() => switchDomain('activist.com')}
           className={`px-3 py-2 rounded text-left transition-colors ${currentDomain === 'activist.com' ? 'bg-blue-600' : 'bg-slate-800 hover:bg-slate-700'}`}
         >
           activist.com <span className="opacity-50 ml-2">(Host)</span>
         </button>
         <button 
-          onClick={() => setCurrentDomain('app.activist.com')}
+          onClick={() => switchDomain('app.activist.com')}
           className={`px-3 py-2 rounded text-left transition-colors ${currentDomain === 'app.activist.com' ? 'bg-blue-600' : 'bg-slate-800 hover:bg-slate-700'}`}
         >
           app.activist.com <span className="opacity-50 ml-2">(Admin)</span>
         </button>
         <button 
-          onClick={() => setCurrentDomain('climate-action.activist.com')}
+          onClick={() => switchDomain('climate-action.activist.com')}
           className={`px-3 py-2 rounded text-left transition-colors ${currentDomain === 'climate-action.activist.com' ? 'bg-blue-600' : 'bg-slate-800 hover:bg-slate-700'}`}
         >
           climate-action... <span className="opacity-50 ml-2">(Tenant)</span>
         </button>
         <button 
-          onClick={() => setCurrentDomain('city-bikes.activist.com')}
+          onClick={() => switchDomain('city-bikes.activist.com')}
           className={`px-3 py-2 rounded text-left transition-colors ${currentDomain === 'city-bikes.activist.com' ? 'bg-blue-600' : 'bg-slate-800 hover:bg-slate-700'}`}
         >
           city-bikes... <span className="opacity-50 ml-2">(Tenant)</span>

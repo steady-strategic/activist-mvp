@@ -1,5 +1,5 @@
 // apps/web/middleware.ts
-import { MOCK_TENANTS } from './lib/db';
+import { getTenantBySlug } from './lib/db';
 import { TenantConfig } from '../../packages/core/src/types';
 
 export type RouteContext = 
@@ -22,7 +22,7 @@ export function middleware(pathname: string, hostname: string): RouteContext {
   // 3. Tenant Resolution (Subdomains)
   // Extract subdomain: climate-action.activist.com -> climate-action
   const subdomain = hostname.split('.')[0];
-  const tenant = MOCK_TENANTS[subdomain];
+  const tenant = getTenantBySlug(subdomain);
 
   if (tenant) {
     return { type: 'public', tenant };
