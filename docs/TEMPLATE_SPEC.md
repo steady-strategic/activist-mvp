@@ -11,11 +11,10 @@ It is intended for:
 
 The spec is derived from the existing Gemini app components:
 
-- `Navbar.tsx`
-- `Hero.tsx`
-- `InfoSections.tsx` (`Mission`, `Impact`)
+- `HeroSection.tsx`
+- `ImpactSection.tsx` (`Mission`, `Impact`)
 - `PandaChat.tsx`
-- `Footer.tsx`
+- `MissionSection.tsx`
 - `types.ts` (`LandingPageConfig`, `MissionCard`, `StatItem`, etc.)
 
 ---

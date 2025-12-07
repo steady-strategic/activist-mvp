@@ -4,8 +4,8 @@
 
 import React from "react";
 import { Mission } from "@/components/InfoSections";
-import type { TenantTheme } from "./CmsBlockRenderer";
-import type { MissionCard } from "@/types"; // adjust path
+import { TenantTheme } from "../../../../../packages/core/src/types";
+import type { MissionCard } from "./types";
 
 export interface MissionSectionProps {
   title: string;
@@ -35,8 +35,8 @@ export const MissionSection: React.FC<MissionSectionWrapperProps> = ({
   cards,
   theme,
 }) => {
-  const accentColor = theme?.accentColor ?? "#16a34a";
-  const secondaryColor = theme?.secondaryColor ?? "#0f766e";
+  const accentColor = theme?.accent ?? "#16a34a";
+  const secondaryColor = theme?.secondary ?? "#0f766e";
 
   const config: MinimalLandingPageConfigForMission = {
     theme: {

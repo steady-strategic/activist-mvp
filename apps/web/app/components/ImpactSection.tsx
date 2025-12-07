@@ -4,8 +4,8 @@
 
 import React from "react";
 import { Impact } from "@/components/InfoSections";
-import type { TenantTheme } from "./CmsBlockRenderer";
-import type { StatItem } from "@/types"; // adjust path
+import { TenantTheme } from "../../../../../packages/core/src/types";
+import type { StatItem } from "./types";
 
 export interface ImpactSectionProps {
   title: string;
@@ -35,8 +35,8 @@ export const ImpactSection: React.FC<ImpactSectionWrapperProps> = ({
   stats,
   theme,
 }) => {
-  const accentColor = theme?.accentColor ?? "#16a34a";
-  const secondaryColor = theme?.secondaryColor ?? "#0f766e";
+  const accentColor = theme?.accent ?? "#16a34a";
+  const secondaryColor = theme?.secondary ?? "#0f766e";
 
   const config: MinimalLandingPageConfigForImpact = {
     theme: {

@@ -9,7 +9,7 @@ export interface MissionCard {
   description: string;
 }
 
-type BlockBase = {
+export type BlockBase = {
   id?: string;            // stable ID for Admin UI (optional)
   type: string;           // discriminator, e.g. "hero", "missionSection"
   variant?: string;       // e.g. "default", "compact", "centered"

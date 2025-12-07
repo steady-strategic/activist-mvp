@@ -4,8 +4,7 @@
 
 import React from "react";
 import { Hero } from "@/components/Hero";
-import type { TenantTheme, TenantIdentity } from "./CmsBlockRenderer";
-// ^ same types we defined in CmsBlockRenderer
+import { TenantTheme } from "../../../../../packages/core/src/types";
 
 // Match the block props spec from TEMPLATE_SPEC
 export interface HeroSectionProps {
@@ -66,8 +65,8 @@ export const HeroSection: React.FC<HeroSectionWrapperProps> = ({
   missionDescription,
   brandName,
 }) => {
-  const accentColor = theme?.accentColor ?? "#16a34a";
-  const secondaryColor = theme?.secondaryColor ?? "#0f766e";
+  const accentColor = theme?.accent ?? "#16a34a";
+  const secondaryColor = theme?.secondary ?? "#0f766e";
 
   const config: MinimalLandingPageConfig = {
     brandName: brandName ?? "Save The Pandas",
@@ -78,7 +77,7 @@ export const HeroSection: React.FC<HeroSectionWrapperProps> = ({
     },
     hero: {
       headline: heading,
-      subheadline,
+      subheadline: subheading,
       eyebrow,
       badgeText,
       tagList,

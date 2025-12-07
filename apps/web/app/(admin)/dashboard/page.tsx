@@ -44,7 +44,8 @@ export default function DashboardPage({ switchDomain }: { switchDomain: (domain:
         secondary: '#f8fafc',
         accent: '#3b82f6'
       },
-      features: ['events']
+      features: ['events'],
+      landingPageBlocks: [] // Initialized as empty; db.ts will populate defaults if empty
     };
 
     createTenant(newTenant);
